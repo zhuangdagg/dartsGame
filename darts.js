@@ -8,11 +8,16 @@ ctx.shadowOffsetY = 10;
 ctx.shadowBlur = 5;
 ctx.shadowColor = 'rgba(0,0,0,0.5)';
 
-var img = new Image();
-img.src = 'dartBoard.png';
-img.onload = function() {
-	ctx.drawImage(img,0,0);
+var img_dartBoard = new Image();
+img_dartBoard.src = 'dartBoard.png';
+// var img_crossHairs = new Image();
+// img_crossHairs.src = 'crossHairs.png';
+img_dartBoard.onload = function() {
+	ctx.drawImage(img_dartBoard,0,0);
 }
+// img_crossHairs.onload = function() {
+// 	ctx.drawImage(img_crossHairs,0,0);
+// }
 canvas.addEventListener('mousemove',(event) =>{
 	// console.log(event.offsetX + "-"+event.offsetY);
 
