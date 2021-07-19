@@ -4,20 +4,38 @@
 	<title>dartGame</title>
 	<meta charset="utf-8">
 	<style type="text/css">
+		@font-face {
+			font-family:doubleFeature20;
+			src:url('static/font/DoubleFeature20.ttf');
+			fromat('ttf');
+
+		}
 		body {
 			background-color: grey;
+			font-family: doubleFeature20;
+			font-size: 25px;
+			color: red;
+
 		}
-		#game {
-			/*border:1px solid white;*/
+		canvas {
+			border:1px solid white;
 			position:absolute;
 			left: 100px;
 			top: 200px;
+			cursor:none;
+		}
+		#crosshair {
+			/*border:3px double green;*/
+			z-index: 1000;
 		}
 	</style>
 </head>
 <body>
 	<h1>Click the dartboard block to look scores:</h1>
-	<div><canvas id="game"></canvas></div>
-	<script src="./darts.js"></script>
+	<div>
+		<canvas id="background"></canvas>
+		<canvas id="crosshair"></canvas>
+	</div>
+	<script src="static/js/darts.js"></script>
 </body>
 </html>

@@ -1,27 +1,67 @@
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-const width = canvas.width = 958;
-const height = canvas.height = 715;
+const backgroundCanvas = document.querySelector('#background');
+const bgCtx = backgroundCanvas.getContext('2d');
+const crosshairCanvas = document.querySelector('#crosshair');
+const ctx = crosshairCanvas.getContext('2d');
+backgroundCanvas.width = 1258;
+const width = crosshairCanvas.width = 715;
+const height = backgroundCanvas.height = crosshairCanvas.height = 715;
 
-ctx.shadowOffsetX = 10;
-ctx.shadowOffsetY = 10;
-ctx.shadowBlur = 5;
-ctx.shadowColor = 'rgba(0,0,0,0.5)';
+ctx.shadowOffsetX = bgCtx.shadowOffsetX =10;
+ctx.shadowOffsetY = bgCtx.shadowOffsetY = 10;
+ctx.shadowBlur = bgCtx.shadowBlur =5;
+ctx.shadowColor = bgCtx.shadowColor = 'rgba(0,0,0,0.5)';
 
 var img_dartBoard = new Image();
-img_dartBoard.src = 'dartBoard.png';
-// var img_crossHairs = new Image();
-// img_crossHairs.src = 'crossHairs.png';
+img_dartBoard.src = 'static/img/dartBoard.png';
+var img_crossHairs = new Image();
+img_crossHairs.src = 'static/img/准心1.png';
 img_dartBoard.onload = function() {
-	ctx.drawImage(img_dartBoard,0,0);
+	bgCtx.drawImage(img_dartBoard,0,0);
 }
-// img_crossHairs.onload = function() {
-// 	ctx.drawImage(img_crossHairs,0,0);
-// }
-canvas.addEventListener('mousemove',(event) =>{
-	// console.log(event.offsetX + "-"+event.offsetY);
 
+//绘制控制参数
+let jumpValue = 3;
+let count = 2;
+let click = false;
+let mouseX,mouseY,x,y = 0;
+let score = 0;
+
+let draw = function(){
+	ctx.save();
+	ctx.clearRect(0,0,958,715);
+	if (click) return;
+	// let x = Math.random()*913;
+	// let y = Math.random()*670;
+	x = x+(0.5-Math.random())*20;
+	y = y+(0.5-Math.random())*20;
+	ctx.translate(x,y);
+	ctx.rotate(Math.random()*0.5);
+	// if(x!==Ox) ctx.drawImage(image1,-45,-45);
+	ctx.drawImage(img_crossHairs,-45,-45);
+	// Ox=x,Oy=y;
+
+	ctx.restore();
+	// requestAnimationFrame(setTimeout(draw,1000));
+	
+
+	var i = setTimeout(draw,10);
+
+}
+
+crosshairCanvas.addEventListener('mousemove',(event) =>{
+	x = event.offsetX + (0.5-Math.random())*20 ;
+	y =event.offsetY + (0.5-Math.random())*20 ;
+	// mouseX = event.offsetX;
+	// mouseY = event.offsetY;
 });
+document.body.addEventListener('keydown',(event) =>{
+	// alert(event.key);
+	if(event.key === 'w') y += -10;
+	if(event.key === 's') y += 10;
+	if(event.key === 'a') x += -10;
+	if(event.key === 'd') x += 10;
+});
+
 
 
 
@@ -97,8 +137,17 @@ var caculate = function(x,y){
 
 }
 
-canvas.addEventListener('click',(event) =>{
-	let score = caculate(event.offsetX,event.offsetY);
-	console.log("当前区域分值："+score);
-	alert("当前区域分值："+score);
+crosshairCanvas.addEventListener('click',(event) =>{
+	//--------测试-------
+	// ctx.save();
+	// ctx.translate(event.offsetX,event.offsetY);
+	// ctx.rotate(100);
+	// ctx.drawImage(img_crossHairs,-45,-50);
+	// ctx.restore();
+	let scoreThis = caculate(x,y);
+	score += scoreThis
+	console.log("当前区域分值："+scoreThis+"\n当前得分："+score);
+	alert("当前区域分值："+scoreThis+"\n当前得分："+score);
 });
+
+draw();
